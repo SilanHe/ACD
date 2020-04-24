@@ -6,25 +6,12 @@ class Batch:
 		self.text = None
 		self.label = None
 
-class Tree:
-
-	class Node(list):
-
-		def __init__(self):
-			self.label = None
-			super().__init__()
-
-	def __init__(self):
-		self.nodes = list()
-
-	def add
-
 class ScoreQueue():
 
 	def __init__(self):
 		self.pq = list()
 
-	def poptopkpercentile(k: float):
+	def pop_top_k_percentile(k: float):
 
 		# get list of magnitudes
 		# assume each item in self.pq is a tuple
