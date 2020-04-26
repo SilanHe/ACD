@@ -6,7 +6,7 @@ import numpy as np
 # wrapper class for explanation methods
 
 class ExplanationMethod(ABC):
-
+	
 	def __init__(self,method,model,inputs,answers):
 		self.method = method # this is a string that stores the method name
 		self.model = model
@@ -18,5 +18,5 @@ class ExplanationMethod(ABC):
 		Returns np.array
 	"""
 	@abstractmethod
-    def explain(self, batch, start, end): 
-        pass
+	def explain(self, batch, start, end):
+		pass

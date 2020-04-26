@@ -1,4 +1,4 @@
-from util_objects import Batch, ScoreQueue
+from .util_objects import Batch, ScoreQueue
 from types import *
 
 """
@@ -21,15 +21,16 @@ def acd(batch: Batch, k: float, method:  FunctionType):
 	# get unigram scores
 	for i in range(len_batch):
 		# insert index of word in batch along with its score as (score,index) tuple
-		score_queue.add((method(batch,i,i),[i]))
+		salience = method(batch,i,i)
+		score_queue.push([salience,[i],[]])
 
 	# iteratively build up tree
-	while priority_queue:
+	while not score_queue.isempty():
 
 		selected_groups = score_queue.pop_top_k_percentile(k)
 		tree = tree + selected_groups
 
-		# generate new groups of features based on current groups and add them to the priority queue
+		# generate new groups of features based on current groups and push them to the priority queue
 		for selected_group in selected_groups:
 			
 			group_start_index = selected_group[1][-1] + 1
@@ -60,7 +61,7 @@ def acd(batch: Batch, k: float, method:  FunctionType):
 				candidate_group_score = method(batch,candidate_group[1][0],candidate_group[1][-1])
 
 				score = candidate_group_score - selected_group_score
-				score_queue.add((score,candidate_group))
+				score_queue.push([score,candidate_group],[selected_group,candidate_group])
 
 	return tree
 

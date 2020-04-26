@@ -1,4 +1,4 @@
-from method import ExplanationMethod
+from .method import ExplanationMethod
 
 class IG(ExplanationMethod):
 
@@ -51,6 +51,6 @@ class IG(ExplanationMethod):
 
 		_, scores = ig(batch, self.model, self.inputs, self.answers)
 
-		score = sum(scores[start:end+1])
+		score = np.sum(scores[start:end+1])
 		
 		return score

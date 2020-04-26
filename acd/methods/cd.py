@@ -1,4 +1,4 @@
-from method import ExplanationMethod
+from .method import ExplanationMethod
 
 class CD(ExplanationMethod):
 
