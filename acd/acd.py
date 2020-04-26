@@ -31,14 +31,14 @@ def acd(batch: Batch, k: float, method:  FunctionType):
 		tree = tree + selected_groups
 
 		# generate new groups of features based on current groups and push them to the priority queue
-		for selected_group in selected_groups:
+		for index_selected_group, selected_group in enumerate(selected_groups):
 			
 			group_start_index = selected_group[1][-1] + 1
 			group_end_index = selected_group[1][0] - 1
 			
 			# find groups that are next to current group in selected_groups
 			candidate_groups_index = list()
-			for candidate_group in selected_groups:
+			for index_candidate_group,candidate_group in enumerate(selected_groups):
 				# start and end index of candidate group
 				start = candidate_group[1][0]
 				end = candidate_group[1][-1]
@@ -47,21 +47,25 @@ def acd(batch: Batch, k: float, method:  FunctionType):
 					# selected_group + candidate_group
 
 					new_candidate_group_indeces = selected_group[1] + candidate_group[1]
-					candidate_groups_index.append(new_candidate_group_indeces)
+					candidate_groups_index.append([new_candidate_group_indeces,selected_groups[index_selected_group],selected_groups[index_candidate_group]])
 
 				elif group_end_index < len_batch and group_end_index == end:
 					#  candidate_group + selected_group
 
 					new_candidate_group_indeces =  candidate_group[1] + selected_group[1]
-					candidate_groups_index.append(new_candidate_group_indeces)
+					candidate_groups_index.append([new_candidate_group_indeces,selected_groups[index_candidate_group],selected_groups[index_selected_group]])
 
 
 			selected_group_score = method(batch,selected_group[1][0],selected_group[1][-1])
-			for candidate_group in candidate_groups:
-				candidate_group_score = method(batch,candidate_group[1][0],candidate_group[1][-1])
+
+			# candidate group contains (index of new group from candidate group and selected_group combo, firstgroup, second group)
+			for candidate_group in candidate_groups_index:
+				indeces = candidate_group[0]
+				candidate_group_score = method(batch,candidate_group[0][0],candidate_group[0][-1])
+
 
 				score = candidate_group_score - selected_group_score
-				score_queue.push([score,candidate_group],[selected_group,candidate_group])
+				score_queue.push([score,candidate_group,candidate_group[1:]])
 
 	return tree
 

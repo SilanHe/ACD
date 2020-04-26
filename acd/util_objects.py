@@ -38,7 +38,7 @@ class ScoreQueue():
 		heapq.heappush(self.pq,item)
 
 	def pop(self):
-		return heapq.heappop(self.pq,item)
+		return heapq.heappop(self.pq)
 
 	def isempty(self):
 		return not self.pq
