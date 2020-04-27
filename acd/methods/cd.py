@@ -95,7 +95,7 @@ class CD(ExplanationMethod):
 
 			return scores, irrel_scores
 
-		score, _ = CD(batch, self.model, start, stop)
+		score, _ = CD(batch, self.model, start, end)
 
 		return score
 
