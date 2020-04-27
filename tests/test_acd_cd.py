@@ -30,7 +30,7 @@ def main():
 		batch.text = [word.lower() for word in sst_sentences[index]]
 		batch.convert_to_long_tensor(inputs)
 		try:
-			test_method = acd.IG("ig",model,inputs,answers) # test doesnt use any of these object fields
+			test_method = acd.CD("cd",model,inputs,answers) # test doesnt use any of these object fields
 			tree = acd.get_acd(batch,0.80,test_method.explain)
 			print(index, sentence,'\n',tree)
 		except Exception as e:
