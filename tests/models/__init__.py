@@ -1,0 +1,1 @@
+from .lstmsentiment import model

@@ -7,11 +7,11 @@ from os.path import join
 
 def main():
 	# snapshot
-	snapshot_dir = 'models/lstmsentiment'
+	snapshot_dir = './models/lstmsentiment'
 	snapshot_file = join(snapshot_dir, 'best_snapshot_devacc_79.35779571533203_devloss_0.41613781452178955_iter_9000_model.pt')
 
 	# get model
-	sys.path.append('models/lstmsentiment')
+        sys.path.append(snapshot_dir)
 	model = get_model(snapshot_file)
 
 	# get data
