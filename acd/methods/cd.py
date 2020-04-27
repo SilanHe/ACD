@@ -2,6 +2,7 @@ from .method import ExplanationMethod
 import torch
 import numpy as np
 from torchtext import data, datasets
+from scipy.special import expit as sigmoid
 
 class CD(ExplanationMethod):
 
