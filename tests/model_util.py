@@ -1,7 +1,7 @@
 import torch
 
 # list of all models
-import models.lstmsentiment
+from models.lstmsentiment import model
 
 # get model
 def get_model(snapshot_file):
