@@ -24,7 +24,7 @@ def main():
 	count = 0
 	for index,tree in enumerate(sst):
 		
-		sentence = sst_sentences[index]
+		sentence = ' '.join(sst_sentences[index])
 		
 		batch = acd.Batch()
 		batch.text = [word.lower() for word in sst_sentences[index]]
@@ -32,7 +32,7 @@ def main():
 		try:
 			test_method = acd.IG("ig",model,inputs,answers) # test doesnt use any of these object fields
 			tree = acd.get_acd(batch,0.90,test_method.explain)
-			print(index, '\n',tree)
+			print(index, sentence,'\n',tree)
 		except Exception as e:
 			print(e)
 		
