@@ -1,4 +1,4 @@
-import heapq
+from .maxheap import MaxHeap
 import torch
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -19,14 +19,14 @@ class Batch:
 class ScoreQueue():
 
 	def __init__(self):
-		self.pq = list()
+		self.pq = MaxHeap(100) # 1000 should not ever be reached
 
 	def pop_top_k_percentile(self,k: float):
 
 		# get list of magnitudes
 		# assume each item in self.pq is a tuple
-		len_pq = len(self.pq)
-		num_top_k_percentile = len_pq - int(k * len_pq)
+		len_pq = self.pq.size
+		num_top_k_percentile = max(len_pq - int(k * len_pq),2)
 
 		pops = list()
 		for i in range(num_top_k_percentile):
@@ -35,10 +35,10 @@ class ScoreQueue():
 		return pops
 
 	def push(self,item):
-		heapq.heappush(self.pq,item)
+		self.pq.insert(item)
 
 	def pop(self):
-		return heapq.heappop(self.pq)
+		return self.pq.extractMax()
 
 	def isempty(self):
-		return not self.pq
+		return self.pq.size == 0

@@ -9,7 +9,7 @@ from types import *
 		method: FunctionType
 	returns list of groups, each group is a tuple with the score and the indeces of the group
 """
-def acd(batch: Batch, k: float, method:  FunctionType):
+def get_acd(batch: Batch, k: float, method:  FunctionType):
 
 
 	# initialize our priority queue and tree
@@ -46,15 +46,13 @@ def acd(batch: Batch, k: float, method:  FunctionType):
 				if group_start_index >= 0 and group_start_index == start:
 					# selected_group + candidate_group
 
-					new_candidate_group_indeces = selected_group[1] + candidate_group[1]
+					new_candidate_group_indeces = selected_group[1][:] + candidate_group[1][:]
 					candidate_groups_index.append([new_candidate_group_indeces,selected_groups[index_selected_group],selected_groups[index_candidate_group]])
 
 				elif group_end_index < len_batch and group_end_index == end:
 					#  candidate_group + selected_group
-
-					new_candidate_group_indeces =  candidate_group[1] + selected_group[1]
+					new_candidate_group_indeces =  candidate_group[1][:] + selected_group[1][:]
 					candidate_groups_index.append([new_candidate_group_indeces,selected_groups[index_candidate_group],selected_groups[index_selected_group]])
-
 
 			selected_group_score = method(batch,selected_group[1][0],selected_group[1][-1])
 
@@ -65,7 +63,7 @@ def acd(batch: Batch, k: float, method:  FunctionType):
 
 
 				score = candidate_group_score - selected_group_score
-				score_queue.push([score,candidate_group,candidate_group[1:]])
+				score_queue.push([score,indeces,candidate_group[1:]])
 
 	return tree
 

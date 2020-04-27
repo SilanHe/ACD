@@ -6,8 +6,8 @@ class IG(ExplanationMethod):
 		super().__init__(method,model,inputs,answers)
 
 	def explain(self, batch, start, end): 
-        
-        def ig(batch, model, inputs, answers):
+		
+		def ig(batch, model, inputs, answers):
 
 			x = model.embed(batch.text)
 			T = x.size(0)
@@ -26,19 +26,19 @@ class IG(ExplanationMethod):
 
 			# ig
 			for k in range(T):
-			model.zero_grad()
-			step_input = x_dash + k * (x - x_dash) / T
-			step_output = model(step_input)
-			step_pred = torch.argmax(step_output)
-			step_grad = torch.autograd.grad(step_output[0][pred.item()], x)[0]
-			if sum_grad is None:
-				sum_grad = step_grad
-				grad_array = step_grad
-				x_array = step_input
-			else:
-				sum_grad += step_grad
-				grad_array = torch.cat([grad_array, step_grad])
-				x_array = torch.cat([x_array, step_input])
+				model.zero_grad()
+				step_input = x_dash + k * (x - x_dash) / T
+				step_output = model(step_input)
+				step_pred = torch.argmax(step_output)
+				step_grad = torch.autograd.grad(step_output[0][pred.item()], x)[0]
+				if sum_grad is None:
+					sum_grad = step_grad
+					grad_array = step_grad
+					x_array = step_input
+				else:
+					sum_grad += step_grad
+					grad_array = torch.cat([grad_array, step_grad])
+					x_array = torch.cat([x_array, step_input])
 
 			sum_grad = sum_grad / T
 			sum_grad = sum_grad * (x - x_dash)
