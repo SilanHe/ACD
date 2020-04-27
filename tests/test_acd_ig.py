@@ -29,11 +29,13 @@ def main():
 		batch = acd.Batch()
 		batch.text = [word.lower() for word in sst_sentences[index]]
 		batch.convert_to_long_tensor(inputs)
-
-		test_method = acd.IG("ig",model,inputs,answers) # test doesnt use any of these object fields
-		tree = acd.get_acd(batch,0.90,test_method.explain)
-
-		print(tree)
+		try:
+			test_method = acd.IG("ig",model,inputs,answers) # test doesnt use any of these object fields
+			tree = acd.get_acd(batch,0.90,test_method.explain)
+			print(index, '\n',tree)
+		except Exception as e:
+			print(e)
+		
 
 		count += 1
 		if count > 10:
