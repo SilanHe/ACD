@@ -11,6 +11,9 @@ class CD(ExplanationMethod):
 
 	def explain(self, batch, start, end):
 
+		def format_score(score):
+			return score[0] - score[1]
+
 		def decomp_three(a, b, c, activation):
 			a_contrib = 0.5 * (activation(a + c) - activation(c) + activation(a + b + c) - activation(b + c))
 			b_contrib = 0.5 * (activation(b + c) - activation(c) + activation(a + b + c) - activation(a + c))
@@ -98,6 +101,6 @@ class CD(ExplanationMethod):
 
 		score, _ = CD(batch, self.model, start, end)
 
-		return score
+		return format_score(score)
 
 		
