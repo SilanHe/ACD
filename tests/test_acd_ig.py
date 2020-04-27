@@ -4,6 +4,7 @@ import acd
 import sst_util
 from model_util import get_model
 from os.path import join
+import traceback
 
 def main():
 	# snapshot
@@ -35,6 +36,7 @@ def main():
 			print(index, sentence,'\n',tree)
 		except Exception as e:
 			print(e)
+			traceback.print_exc()
 		
 
 		count += 1
