@@ -1,4 +1,7 @@
 from .method import ExplanationMethod
+import torch
+import numpy as np
+from torchtext import data, datasets
 
 class CD(ExplanationMethod):
 

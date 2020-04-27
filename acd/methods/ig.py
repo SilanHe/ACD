@@ -1,4 +1,7 @@
-from .method import ExplanationMethod
+from .method import 
+import torch
+import numpy as np
+from torchtext import data, datasets
 
 class IG(ExplanationMethod):
 
