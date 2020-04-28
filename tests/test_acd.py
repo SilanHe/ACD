@@ -4,6 +4,7 @@ import acd
 import sst_util
 from model_util import get_model
 from os.path import join
+import traceback
 
 def main():
 	# snapshot
@@ -29,11 +30,14 @@ def main():
 		batch = acd.Batch()
 		batch.text = [word.lower() for word in sst_sentences[index]]
 		batch.convert_to_long_tensor(inputs)
+		try:
+			test_method = acd.TestMethod(0,0,0,0) # test doesnt use any of these object fields
+			tree = acd.agglomerate(batch,0.90,test_method.explain)
 
-		test_method = acd.TestMethod(0,0,0,0) # test doesnt use any of these object fields
-		tree = acd.get_acd(batch,0.90,test_method.explain)
-
-		print(tree)
+			print(index, sentence,'\n',tree)
+		except Exception as e:
+			print(e)
+			traceback.print_exc()
 
 		count += 1
 		if count > 10:
